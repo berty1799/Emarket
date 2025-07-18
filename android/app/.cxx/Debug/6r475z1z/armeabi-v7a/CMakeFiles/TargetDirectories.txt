@@ -1,0 +1,2 @@
+C:/Users/berty/Videos/Captures/apps/berty1/android/app/.cxx/Debug/6r475z1z/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/berty/Videos/Captures/apps/berty1/android/app/.cxx/Debug/6r475z1z/armeabi-v7a/CMakeFiles/rebuild_cache.dir

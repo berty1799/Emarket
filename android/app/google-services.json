@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "890633175383",
+    "project_id": "markt-108d2",
+    "storage_bucket": "markt-108d2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:890633175383:android:69124e64250e4144207e12",
+        "android_client_info": {
+          "package_name": "com.example.berty1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "890633175383-335fpq8ntelpo3mgeed86aioin4lm04u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.berty1",
+            "certificate_hash": "f42aea531842ed4a0375eeae0de991ed96e0fae8"
+          }
+        },
+        {
+          "client_id": "890633175383-l33hahj1vnhnvmoj1dbkmgl211hvacb7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.berty1",
+            "certificate_hash": "c6c85c919301f3fb5696483e335f709c218e584a"
+          }
+        },
+        {
+          "client_id": "890633175383-5fhqn4a7tr0clluu2c56j7657ckbd50g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRvMkIHg2qHJvCs7iRCt4Q15mO12_pQQs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "890633175383-5fhqn4a7tr0clluu2c56j7657ckbd50g.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "890633175383-m3lqv02tshksh2aepo3vii2a7e4m7fet.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.berty1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
