@@ -71,6 +71,15 @@ dependencies:
   google_generative_ai: ^0.4.7
   material_symbols_icons: ^4.2815.1
   animated_bottom_navigation_bar: ^1.4.0
+  filter_list: ^1.0.3
+  cuberto_bottom_bar: ^3.1.0
+  fancy_drawer: ^2.0.0
+  sidebarx: ^0.17.1
+  flutter_slider_drawer: ^3.0.2
+  animations: ^2.0.11
+  flutter_screenutil: ^5.9.3
+  iconly: ^1.0.1
+  crystal_navigation_bar: ^1.0.4
   
   
   
@@ -132,6 +141,7 @@ flutter:
   - assets/ai2_back.jpg
   - assets/Shopping bag.json
   - assets/appicon.png
+  - assets/Error 404.json
   
   
   

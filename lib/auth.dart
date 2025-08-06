@@ -21,7 +21,7 @@ class _AuthState extends State<Auth> {
                 "User logged in: ${FirebaseAuth.instance.currentUser?.email}");
 
             if (snapshot.hasData) {
-              return Btnnavigationbar();
+              return BottomBarWithNormalStyle();
             } else {
               return Start();
             }

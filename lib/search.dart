@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:berty1/btnnavigationbar.dart';
 import 'package:berty1/homepage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:filter_list/filter_list.dart';
+import 'package:http/http.dart' as http;
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -19,8 +23,6 @@ void searchAndNavigate(String query) {
   }
 }
 
-List searchhistory = [];
-
 final SearchController controller = SearchController();
 
 class _SearchState extends State<Search> {
@@ -33,25 +35,6 @@ class _SearchState extends State<Search> {
           child: Column(children: [
             SizedBox(
               height: 70,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Btnnavigationbar(),
-                            ));
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.white,
-                      )),
-                ],
-              ),
             ),
             Padding(
               padding: const EdgeInsets.all(20.0),

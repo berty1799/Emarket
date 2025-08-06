@@ -72,6 +72,7 @@ class ProfilePage extends StatelessWidget {
 
   Widget _buildInfoCard(String title, String value) {
     return Card(
+      color: Colors.white,
       margin: EdgeInsets.only(bottom: 16),
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

@@ -88,12 +88,11 @@ class _SigninState extends State<Signin> {
                 Flexible(
                   child: Container(
                     height: 300,
-                    child: Expanded(
-                        child: ListView(children: [
+                    child: ListView(children: [
                       Center(
                           child: Lottie.asset('assets/log in.json',
                               height: 300, width: 300, repeat: false)),
-                    ])),
+                    ]),
                   ),
                 ),
                 feild("Email", TextInputType.emailAddress, emailcontroller),
@@ -112,7 +111,7 @@ class _SigninState extends State<Signin> {
                       selectedIcon: Icon(Icons.visibility_outlined),
                       style: ButtonStyle(
                         elevation: WidgetStateProperty.all(0),
-                        backgroundColor: WidgetStateProperty.all(
+                        backgroundColor: MaterialStateProperty.all(
                           Colors.transparent,
                         ),
                         shadowColor: WidgetStateProperty.all(
@@ -212,7 +211,8 @@ class _SigninState extends State<Signin> {
                                       email: emailcontroller.text,
                                       password: passwordcontroller.text);
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => Btnnavigationbar()));
+                                  builder: (context) =>
+                                      BottomBarWithNormalStyle()));
                             } on FirebaseAuthException catch (e) {
                               if (e.code == 'user-not-found') {
                                 print('No user found for that email.');
@@ -257,7 +257,7 @@ class _SigninState extends State<Signin> {
                                       Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                Btnnavigationbar()),
+                                                BottomBarWithNormalStyle()),
                                       );
                                     }
                                   },
@@ -300,7 +300,7 @@ class _SigninState extends State<Signin> {
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                Btnnavigationbar()));
+                                                BottomBarWithNormalStyle()));
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -316,11 +316,8 @@ class _SigninState extends State<Signin> {
                                               delegates:
                                                   LottieDelegates(values: [
                                                 ValueDelegate.color(
-                                                  const [
-                                                    '**'
-                                                  ], // يستبدل جميع الألوان في الملف
-                                                  value: Colors
-                                                      .white, // حدد اللون اللي تريده
+                                                  const ['**'],
+                                                  value: Colors.white,
                                                 ),
                                               ]))),
                                     ],
@@ -340,8 +337,18 @@ class _SigninState extends State<Signin> {
                                         context: context,
                                         builder: (context) {
                                           return Center(
-                                              child: CircularProgressIndicator(
-                                            color: Color(0xFF5D3FD3),
+                                              child: SizedBox(
+                                            width: 200.0,
+                                            height: 100.0,
+                                            child: Shimmer.fromColors(
+                                                baseColor:
+                                                    Colors.deepPurpleAccent,
+                                                highlightColor:
+                                                    Colors.cyanAccent,
+                                                child: Lottie.asset(
+                                                    "assets/loading splash.json",
+                                                    height: 200,
+                                                    width: 200)),
                                           ));
                                         });
                                     UserCredential userCredential =
@@ -351,7 +358,7 @@ class _SigninState extends State<Signin> {
                                       Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  Btnnavigationbar()));
+                                                  BottomBarWithNormalStyle()));
                                     }
                                   },
                                   child: Row(

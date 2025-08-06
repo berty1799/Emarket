@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:berty1/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 
 class AskAI extends StatefulWidget {
@@ -10,9 +14,53 @@ class AskAI extends StatefulWidget {
   State<AskAI> createState() => _AskAIState();
 }
 
+Future<String> askGemini(String userMessage) async {
+  const apiKey =
+      'AIzaSyB2yzEtrpRH4XOmnPzvYqKuWCSJS_WxcY4'; // حط مفتاح Gemini هنا
+
+  final url = Uri.parse(
+      'https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=$apiKey');
+
+  final prompt = '''
+دي المنتجات اللي عندي في السوبر ماركت:
+
+${jsonEncode(product)}
+
+العميل بيقول: "$userMessage"
+
+رشح له منتج مناسب من القائمة ووضح السبب.
+''';
+
+  final body = jsonEncode({
+    "contents": [
+      {
+        "parts": [
+          {"text": prompt}
+        ]
+      }
+    ]
+  });
+
+  final response = await http.post(
+    url,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: body,
+  );
+
+  if (response.statusCode == 200) {
+    final decoded = jsonDecode(response.body);
+    return decoded['candidates'][0]['content']['parts'][0]['text'];
+  } else {
+    throw Exception('Gemini is not connected');
+  }
+}
+
 class _AskAIState extends State<AskAI> {
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  String geminiReply = '';
 
   final model = GenerativeModel(
     model: 'models/gemini-1.5-flash-latest',
@@ -33,16 +81,27 @@ class _AskAIState extends State<AskAI> {
     });
 
     final prompt = '''
-You are a smart assistant specialized in product recommendations inside a supermarket app.
+You are a smart assistant working in a supermarket app.
 
-Only answer questions related to products, offers, or shopping guidance.
+Here are the available products in the store:
 
-If the user asks something unrelated (like sports, politics, or personal questions), politely respond with:
-"I'm here to help you with products only 😊"
+${jsonEncode(product)}
 
-Now answer this question:
-$userText
+User said: "$userText"
+
+Based on the available products, recommend one that fits the request and explain why you chose it.
+
+Only suggest products that are in the list.
 ''';
+    if (product.isEmpty) {
+      setState(() {
+        messages.add({
+          'text': 'جارٍ تحميل المنتجات من قاعدة البيانات...',
+          'fromAI': true
+        });
+      });
+      return;
+    }
 
     await Future.delayed(Duration(milliseconds: 300));
     _scrollToBottom();
@@ -95,6 +154,7 @@ $userText
     return Scaffold(
       backgroundColor: Color(0xFFF5F8FF),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         iconTheme: IconThemeData(color: Colors.white),
         title: Text("AI Assistant",
             style: GoogleFonts.poppins(
@@ -124,7 +184,7 @@ $userText
             ),
             if (isLoading)
               Lottie.asset("assets/Gemini Google AI.json",
-                  height: 150), // 👈 لودر Lottie
+                  height: 150), //loading
             Container(
               padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               decoration: BoxDecoration(

@@ -1,6 +1,5 @@
 import 'package:berty1/accountss.dart';
 import 'package:berty1/splash.dart';
-import 'package:berty1/theme.dart';
 import 'package:flutter/material.dart';
 import 'homepage.dart';
 import 'package:flutter/services.dart';
@@ -31,8 +30,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: SplashScreen(),
-        darkTheme: dark,
-        theme: light,
         routes: {
           '/homePage': (context) => MyWidget(),
           '/signUpPage': (context) => ProfilePage(),

@@ -1,10 +1,7 @@
 import 'package:berty1/btnnavigationbar.dart';
-
 import 'package:flutter/material.dart';
-
 import 'package:lottie/lottie.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
 import 'package:gradient_borders/gradient_borders.dart';
 
 class Rateus extends StatefulWidget {
@@ -15,116 +12,121 @@ class Rateus extends StatefulWidget {
 }
 
 class _RateusState extends State<Rateus> {
+  double _rating = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.white,
-        ),
-        backgroundColor: Color(0xFF5D3FD3),
-        title: Text(
+        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: const Color(0xFF5D3FD3),
+        title: const Text(
           'Rate Us',
           style: TextStyle(
               fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Icon(
-              Icons.rate_review_outlined,
-            ),
-          )
-        ],
       ),
-      body: Container(
+      body: SingleChildScrollView(
         child: Column(
           children: [
+            const SizedBox(height: 20),
             SizedBox(
-                height: 300,
-                child: ListView(children: [Lottie.asset("assets/rate.json")])),
-            SizedBox(
-              height: 40,
+              height: 250,
+              child: Lottie.asset("assets/rate.json"),
             ),
-            Center(
-              child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Container(
-                      decoration: BoxDecoration(
-                          border: GradientBoxBorder(
-                              gradient: LinearGradient(
-                                  colors: [Colors.blue, Colors.red]),
-                              width: 10)),
-                      height: 300,
-                      child: ListView(children: [
-                        Center(
-                            child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Give us rate 1 to 5",
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  border: GradientBoxBorder(
+                    gradient:
+                        const LinearGradient(colors: [Colors.blue, Colors.red]),
+                    width: 4,
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    const Text(
+                      "Give us a rate from 1 to 5",
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 30),
+                    RatingBar.builder(
+                      initialRating: _rating,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: false,
+                      itemCount: 5,
+                      itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      itemBuilder: (context, _) => const Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                      onRatingUpdate: (rating) {
+                        setState(() {
+                          _rating = rating;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 30),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF5D3FD3),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                        )),
-                        SizedBox(
-                          height: 50,
                         ),
-                        Center(
-                          child: RatingBar.builder(
-                            initialRating: 1,
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            allowHalfRating: false,
-                            itemCount: 5,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                            itemBuilder: (context, _) => Icon(
-                              Icons.star,
-                              color: Colors.red,
-                            ),
-                            onRatingUpdate: (rating) {
-                              print(rating);
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('Thanks for your feedback!'),
+                                content: SizedBox(
+                                  height: 200,
+                                  child: LottieBuilder.asset(
+                                    "assets/sucess.json",
+                                    repeat: false,
+                                  ),
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              BottomBarWithNormalStyle(),
+                                        ),
+                                      );
+                                    },
+                                    child: const Text("Back to Home"),
+                                  )
+                                ],
+                              );
                             },
-                          ),
+                          );
+                        },
+                        icon: const Icon(Icons.save, color: Colors.white),
+                        label: const Text(
+                          "Submit Rating",
+                          style: TextStyle(color: Colors.white),
                         ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        Center(
-                            child: Container(
-                                height: 50,
-                                width: 200,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                            title: const Text('Success'),
-                                            content: Container(
-                                              height: 300,
-                                              width: 300,
-                                              child: LottieBuilder.asset(
-                                                "assets/sucess.json",
-                                                repeat: false,
-                                              ),
-                                            ),
-                                            actions: <Widget>[
-                                              ElevatedButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).push(
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                Btnnavigationbar()));
-                                                  },
-                                                  child: Text("Ok"))
-                                            ]);
-                                      },
-                                    );
-                                  },
-                                  child: Text("Save"),
-                                )))
-                      ]))),
-            )
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 40),
           ],
         ),
       ),

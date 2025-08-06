@@ -1,19 +1,17 @@
 import 'dart:convert';
 
+import 'package:berty1/ProductDetails.dart';
 import 'package:berty1/Viewall.dart';
-import 'package:berty1/askai.dart';
-
-import 'package:berty1/settings.dart';
 import 'package:berty1/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
-
 import 'rateus.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
+import 'package:animations/animations.dart';
 
 class MyWidget extends StatefulWidget {
   const MyWidget({super.key});
@@ -40,8 +38,6 @@ class _MyWidgetState extends State<MyWidget> {
   Widget build(BuildContext context) {
     return Stack(children: [
       Scaffold(
-        /*backgroundColor: Colors.cyanAccent*/
-
         appBar: AppBar(
           backgroundColor: Color(0xFF1E3A8A),
           title: Text("Home"),
@@ -294,7 +290,8 @@ class _MyWidgetState extends State<MyWidget> {
                 ],
               );
             } else if (snapshot.hasError) {
-              return Center(child: Text("Something went wrong😥"));
+              return Center(
+                  child: LottieBuilder.asset("assets/Error 404.json"));
             } else {
               // البيانات وصلت وهنعرضها
               return ListView(
@@ -354,21 +351,6 @@ class _MyWidgetState extends State<MyWidget> {
               );
             }
           },
-        ),
-      ),
-      Positioned(
-        bottom: 30, // لو الـ BottomNav ارتفاعه 70 خليه 80 مثلاً
-        right: 20,
-        child: FloatingActionButton(
-          heroTag: "ai_fab",
-          backgroundColor: Color(0xFF0D6EFD),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => AskAI()),
-            );
-          },
-          child: Icon(Icons.psychology, color: Colors.white),
         ),
       ),
     ]);
@@ -489,47 +471,59 @@ class _MyWidgetState extends State<MyWidget> {
   }
 
   Widget buildProductItem(int index) {
-    return GestureDetector(
-      onTap: () {},
-      child: Padding(
-        padding: const EdgeInsets.only(right: 15, top: 10),
-        child: Container(
-          height: 300,
-          width: 170,
-          decoration: BoxDecoration(
-            border: Border.all(color: Color(0xFFCBD5E1)),
-            borderRadius: BorderRadius.only(topRight: Radius.circular(20)),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.3),
-                offset: Offset(4, 4),
-                blurRadius: 10,
-                spreadRadius: 2,
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              Container(
-                height: 100,
-                width: 100,
-                child: Image.network(
-                  fit: BoxFit.contain,
-                  product[index]["image"],
+    final item = product[index];
+
+    return Padding(
+      padding: const EdgeInsets.only(right: 15, top: 10),
+      child: OpenContainer(
+        transitionType: ContainerTransitionType.fadeThrough,
+        transitionDuration: Duration(milliseconds: 500),
+        closedElevation: 5,
+        closedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(topRight: Radius.circular(20)),
+        ),
+        closedColor: Colors.white,
+        openBuilder: (context, _) => ProductDetails(product: item),
+        closedBuilder: (context, openContainer) => GestureDetector(
+          onTap: openContainer,
+          child: Container(
+            height: 300,
+            width: 170,
+            decoration: BoxDecoration(
+              border: Border.all(color: Color(0xFFCBD5E1)),
+              borderRadius: BorderRadius.only(topRight: Radius.circular(20)),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  offset: Offset(4, 4),
+                  blurRadius: 10,
+                  spreadRadius: 2,
                 ),
-              ),
-              ListTile(
-                title: Text(
-                  product[index]["name"],
-                  style: GoogleFonts.poppins(),
+              ],
+            ),
+            child: Column(
+              children: [
+                Container(
+                  height: 100,
+                  width: 100,
+                  child: Image.network(
+                    fit: BoxFit.contain,
+                    item["image"],
+                  ),
                 ),
-                subtitle: Text(
-                  product[index]["price"],
-                  style: GoogleFonts.poppins(),
+                ListTile(
+                  title: Text(
+                    item["name"],
+                    style: GoogleFonts.poppins(),
+                  ),
+                  subtitle: Text(
+                    item["price"],
+                    style: GoogleFonts.poppins(),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -537,47 +531,59 @@ class _MyWidgetState extends State<MyWidget> {
   }
 
   Widget buildRowProduct(int index) {
-    return GestureDetector(
-      onTap: () {},
-      child: Padding(
-        padding: const EdgeInsets.only(right: 15, bottom: 10, top: 10),
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Color(0xFFCBD5E1)),
-            borderRadius: BorderRadius.only(topRight: Radius.circular(10)),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.3),
-                offset: Offset(4, 4),
-                blurRadius: 10,
-                spreadRadius: 2,
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              Container(
-                height: 150,
-                width: 150,
-                child: Image.network(
-                  fit: BoxFit.contain,
-                  product[index]["image"],
+    final item = product[index];
+
+    return Padding(
+      padding: const EdgeInsets.only(right: 15, bottom: 10, top: 10),
+      child: OpenContainer(
+        transitionType: ContainerTransitionType.fade,
+        transitionDuration: Duration(milliseconds: 500),
+        closedElevation: 5,
+        closedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(topRight: Radius.circular(10)),
+        ),
+        closedColor: Colors.white,
+        openBuilder: (context, _) => ProductDetails(product: item),
+        closedBuilder: (context, openContainer) => GestureDetector(
+          onTap: openContainer,
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Color(0xFFCBD5E1)),
+              borderRadius: BorderRadius.only(topRight: Radius.circular(10)),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  offset: Offset(4, 4),
+                  blurRadius: 10,
+                  spreadRadius: 2,
                 ),
-              ),
-              Flexible(
-                child: ListTile(
-                  title: Text(
-                    product[index]["name"],
-                    style: GoogleFonts.poppins(),
-                  ),
-                  subtitle: Text(
-                    product[index]["price"],
-                    style: GoogleFonts.poppins(),
+              ],
+            ),
+            child: Row(
+              children: [
+                Container(
+                  height: 150,
+                  width: 150,
+                  child: Image.network(
+                    fit: BoxFit.contain,
+                    item["image"],
                   ),
                 ),
-              ),
-            ],
+                Flexible(
+                  child: ListTile(
+                    title: Text(
+                      item["name"],
+                      style: GoogleFonts.poppins(),
+                    ),
+                    subtitle: Text(
+                      item["price"],
+                      style: GoogleFonts.poppins(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

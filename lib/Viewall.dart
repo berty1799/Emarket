@@ -1,3 +1,4 @@
+import 'package:berty1/ProductDetails.dart';
 import 'package:berty1/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -46,7 +47,14 @@ class _ViewallState extends State<Viewall> {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  //move to product
+                  final item = product[index];
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProductDetails(product: item),
+                    ),
+                  );
                 },
                 child: Container(
                   decoration: BoxDecoration(
